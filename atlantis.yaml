@@ -5,7 +5,7 @@ parallel_plan: true
 parallel_apply: true
 hosting:
   self: true
-  worker_url: "https://foo.com"
+  worker_url: "http://localhost:9000"
 roles:
   aws: foo
 projects:

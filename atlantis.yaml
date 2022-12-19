@@ -1,0 +1,41 @@
+version: 3
+automerge: true
+delete_source_branch_on_merge: true
+parallel_plan: true
+parallel_apply: true
+hosting:
+  self: true
+  worker_url: "http://localhost:9000"
+roles:
+  aws: foo
+projects:
+- name: my-project-name
+  dir: .
+  workspace: default
+  terraform_version: v1.0.11
+  delete_source_branch_on_merge: true
+  autoplan:
+    when_modified: ["*.tf", "../modules/**/*.tf"]
+    enabled: true
+  #apply_requirements: [mergeable, approved]
+  workflow: myworkflow
+workflows:
+  myworkflow:
+    plan:
+      steps:
+      - env:
+          name: FOO
+          value: BAR
+      - run: echo foo
+      - init
+      - plan:
+          extra_args: ["-lock=false"]
+      - run: echo bar
+    apply:
+      steps:
+      - run: echo hi
+      - init
+      - apply
+allowed_regexp_prefixes:
+- dev/
+- staging/

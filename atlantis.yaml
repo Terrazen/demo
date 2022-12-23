@@ -34,6 +34,7 @@ workflows:
     apply:
       steps:
       - run: echo hi
+      - init
       - apply
 allowed_regexp_prefixes:
 - dev/
